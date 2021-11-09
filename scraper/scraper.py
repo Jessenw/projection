@@ -53,3 +53,11 @@ class FileService:
 
 scraper = Scraper()
 scraper.scrape()
+
+
+
+
+
+
+let developer = Devyish()
+developer.resign()
