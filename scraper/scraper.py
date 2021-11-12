@@ -1,6 +1,34 @@
+from celery import Celery
+from celery.schedules import crontab
+
 import requests
 from bs4 import BeautifulSoup
 
+import json
+
+from datetime import datetime
+
+app = Celery('scraper')
+app.conf.timezone = 'UTC'
+app.conf.beat_schedule = {
+    # Execute scrape every 1 minute
+    'scraping-task-one-min': {
+        'task': 'scraper.scrape',
+        'schedule': crontab()
+    }
+}
+
+@app.task
+def export(filename, content):
+    output_file = open(filename + '.txt', 'w')
+
+    for j in range(len(content)):
+        output_file.write(str(content[j]))
+        output_file.write("\n")
+
+    output_file.close()
+
+@app.task
 def scrape():
     url = "https://geekhack.org/index.php?board=70.0"
 
@@ -31,6 +59,7 @@ def scrape():
                 
                 subjects.append((title, author, title_link))
 
+                # TODO: This should be its own function that the list of subjects
                 # Now we want to get data from each post
                 post_url = title_link
                 post_page = requests.get(post_url)
@@ -43,13 +72,4 @@ def scrape():
         print('Scraping failed. Exception: ')
         print(e)
 
-def export(filename, content):
-    output_file = open(filename + '.txt', 'w')
-
-    for j in range(len(content)):
-        output_file.write(str(content[j]))
-        output_file.write("\n")
-
-    output_file.close()
-
-scrape()
+# scrape()
