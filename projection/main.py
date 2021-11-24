@@ -19,9 +19,23 @@ async def groupbuy(project_id: str):
         page = requests.get(url)
         soup = BeautifulSoup(page.content, "html.parser")
         
+        # This doesn't include comments
         post = soup.find("div", class_="inner")
-        print(post.contents)
-        return Project(content=str(post.contents))
+        # print(post.contents)
+        contents = str(post.contents)
+
+        # We need to perform some clean up before returning
+        contents = contents.replace("\'", " ")
+
+        contents = contents.replace(">,", ">")
+        contents = contents.replace(", <", "<")
+
+        contents = contents.replace("> ", ">")
+        contents = contents.replace(" <", "<")
+        contents = contents.replace("> ", ">")
+
+        print(contents)
+        return Project(content=contents)
     except Exception as e:
         print('Scraping failed with exception...')
         print(e)
