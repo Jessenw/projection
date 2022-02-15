@@ -2,12 +2,8 @@
 
 ## Setup
 
-### RabbitMQ
+// TODO
 
-To start the RabbitMQ server, run:
-`sudo rabbitmq-server`
+## Running locally
 
-### Celery
-
-To start the Celery worker, run:
-`celery -A <parent-folder> worker -l INFO`
+1. In the **/projection** directory, run `uvicorn main:api --reload`

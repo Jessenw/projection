@@ -3,8 +3,8 @@ from fastapi import FastAPI
 import requests
 from bs4 import BeautifulSoup
 
-from models.project_preview import ProjectPreview
 from models.project import Project
+from models.project_preview import ProjectPreview, ProjectPreviews
 
 api = FastAPI()
 
@@ -41,7 +41,7 @@ async def groupbuy(project_id: str):
         print(e)
 
 
-@api.get("/groupbuys", response_model=list[ProjectPreview])
+@api.get("/groupbuys", response_model=ProjectPreviews)
 async def groupbuys():
     url = "https://geekhack.org/index.php?board=70.0"
 
@@ -77,9 +77,12 @@ async def groupbuys():
                 title = links[0].get_text()
                 author = links[1].get_text()
 
+                # Sanitise title
+                title = str(title).replace("[GB] ", "")
+
                 projects.append(ProjectPreview(title=title, author=author, id=id))
 
-        return projects
+        return ProjectPreviews(projects=projects)
     except Exception as e:
         print('Scraping failed with exception...')
         print(e)
