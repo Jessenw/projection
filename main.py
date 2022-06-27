@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from routers import groupbuys, interest_checks
 
 
-api = FastAPI()
+app = FastAPI()
 
-api.include_router(groupbuys.router)
-api.include_router(interest_checks.router)
+app.include_router(groupbuys.router)
+app.include_router(interest_checks.router)
