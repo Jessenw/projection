@@ -47,7 +47,8 @@ async def interest_checks():
                 author = links[1].get_text()
 
                 # Sanitise title
-                title = str(title).replace("[GB] ", "")
+                title = str(title).replace("[IC]", "")
+                title = str(title).strip()
 
                 projects.append(ProjectPreview(title=title, author=author, id=id))
 

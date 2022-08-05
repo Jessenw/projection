@@ -8,4 +8,4 @@ A RESTful interface for accessing read-only data from Geekhack
 
 ## Running locally
 
-1. In the **/projection** directory, run `uvicorn main:api --reload`
+1. In the **/projection** directory, run `uvicorn main:app --reload`

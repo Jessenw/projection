@@ -9,7 +9,6 @@ from models.project_preview import ProjectPreview, ProjectPreviews
 
 router = APIRouter()
 
-
 @router.get("/groupbuys", response_model=ProjectPreviews)
 async def groupbuys():
     url = "https://geekhack.org/index.php?board=70.0"
@@ -47,7 +46,8 @@ async def groupbuys():
                 author = links[1].get_text()
 
                 # Sanitise title
-                title = str(title).replace("[GB] ", "")
+                title = str(title).replace("[GB]", "")
+                title = str(title).strip()
 
                 projects.append(ProjectPreview(title=title, author=author, id=id))
 
